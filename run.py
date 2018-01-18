@@ -53,12 +53,13 @@ while True:
                     gc.produce_robot(unit.id, bc.UnitType.Knight)
                     print('produced a knight!')
                     continue
-
+            #worker harvest/movement logic
             if unit.unit_type == bc.UnitType.Worker:
                 if gc.can_harvest(unit.id,d):
                     gc.harvest(unit.id,d)
                     print('harvested karbonite')
-                    continue
+                elif gc.is_move_ready(unit.id) and gc.can_move(unit.id, d):
+                    gc.move_robot(unit.id, d)
                 continue
             
                     
@@ -81,11 +82,11 @@ while True:
            
 
             # or, try to build a factory:
-            if gc.karbonite() > bc.UnitType.Factory.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Factory, d):
-                gc.blueprint(unit.id, bc.UnitType.Factory, d)
+            #if gc.karbonite() > bc.UnitType.Factory.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Factory, d):
+            #    gc.blueprint(unit.id, bc.UnitType.Factory, d)
             # and if that fails, try to move
-            elif gc.is_move_ready(unit.id) and gc.can_move(unit.id, d):
-                gc.move_robot(unit.id, d)
+            #elif gc.is_move_ready(unit.id) and gc.can_move(unit.id, d):
+            #    gc.move_robot(unit.id, d)
 
     except Exception as e:
         print('Error:', e)
