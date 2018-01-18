@@ -22,8 +22,8 @@ random.seed(6137)
 
 # let's start off with some research!
 # we can queue as much as we want.
-gc.queue_research(bc.UnitType.Rocket)
 gc.queue_research(bc.UnitType.Worker)
+gc.queue_research(bc.UnitType.Rocket)
 gc.queue_research(bc.UnitType.Knight)
 
 my_team = gc.team()
@@ -37,14 +37,14 @@ while True:
         # walk through our units:
         for unit in gc.my_units():
 
-            # pick a random direction:
+            # pick a random direction and initialize location
             d = random.choice(directions)
+            location = unit.location
             
             # first, factory logic
             if unit.unit_type == bc.UnitType.Factory:
                 garrison = unit.structure_garrison()
                 if len(garrison) > 0:
-                    d = random.choice(directions)
                     if gc.can_unload(unit.id, d):
                         print('unloaded a knight!')
                         gc.unload(unit.id, d)
@@ -53,8 +53,15 @@ while True:
                     gc.produce_robot(unit.id, bc.UnitType.Knight)
                     print('produced a knight!')
                     continue
+
             #worker harvest/movement logic
             if unit.unit_type == bc.UnitType.Worker:
+                print(unit.ability_heat())
+                print(unit.movement_heat())
+                if gc.can_replicate(unit.id,d):
+                   gc.replicate(unit.id,d)
+                   print('replicated')
+                   continue
                 if gc.can_harvest(unit.id,d):
                     gc.harvest(unit.id,d)
                     print('harvested karbonite')
@@ -62,10 +69,7 @@ while True:
                     gc.move_robot(unit.id, d)
                 continue
             
-                    
-
-            # first, let's look for nearby blueprints to work on
-            location = unit.location
+            # first, let's look for nearby blueprints to work on            
             if location.is_on_map():
                 nearby = gc.sense_nearby_units(location.map_location(), 2)
                 for other in nearby:
