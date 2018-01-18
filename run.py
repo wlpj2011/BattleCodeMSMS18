@@ -37,6 +37,9 @@ while True:
         # walk through our units:
         for unit in gc.my_units():
 
+            # pick a random direction:
+            d = random.choice(directions)
+            
             # first, factory logic
             if unit.unit_type == bc.UnitType.Factory:
                 garrison = unit.structure_garrison()
@@ -50,6 +53,16 @@ while True:
                     gc.produce_robot(unit.id, bc.UnitType.Knight)
                     print('produced a knight!')
                     continue
+            #worker harvest/movement logic
+            if unit.unit_type == bc.UnitType.Worker:
+                if gc.can_harvest(unit.id,d):
+                    gc.harvest(unit.id,d)
+                    print('harvested karbonite')
+                elif gc.is_move_ready(unit.id) and gc.can_move(unit.id, d):
+                    gc.move_robot(unit.id, d)
+                continue
+            
+                    
 
             # first, let's look for nearby blueprints to work on
             location = unit.location
@@ -65,31 +78,17 @@ while True:
                         print('attacked a thing!')
                         gc.attack(unit.id, other.id)
                         continue
-
-            #knight logic
-            if unit.unit_type == bc.UnitType.Knight:
-            	if round.()<200:
-            		
-            	d = random.choice(directions)
-            	if gc.is_attack_ready(unit.id) and gc.can_attack (unit.id, other.id):
-            		gc.attack(unit.id,other.id)
-            		print('attacked a thing!')
-            		continue
-
-            # okay, there weren't any dudes around
-            # pick a random direction:
-            d = random.choice(directions)
             
             # try to build a Rocket:
             if gc.karbonite() > bc.UnitType.Rocket.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Rocket, d):
                 gc.blueprint(unit.id, bc.UnitType.Rocket, d)
-            
+        
             # or, try to build a factory:
-            if gc.karbonite() > bc.UnitType.Factory.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Factory, d):
-                gc.blueprint(unit.id, bc.UnitType.Factory, d)
+            #if gc.karbonite() > bc.UnitType.Factory.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Factory, d):
+            #    gc.blueprint(unit.id, bc.UnitType.Factory, d)
             # and if that fails, try to move
-            elif gc.is_move_ready(unit.id) and gc.can_move(unit.id, d):
-                gc.move_robot(unit.id, d)
+            #elif gc.is_move_ready(unit.id) and gc.can_move(unit.id, d):
+            #    gc.move_robot(unit.id, d)
 
     except Exception as e:
         print('Error:', e)
