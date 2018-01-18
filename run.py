@@ -79,7 +79,11 @@ while True:
             # okay, there weren't any dudes around
             # pick a random direction:
             d = random.choice(directions)
-
+            
+            # try to build a Rocket:
+            if gc.karbonite() > bc.UnitType.Rocket.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Rocket, d):
+                gc.blueprint(unit.id, bc.UnitType.Rocket, d)
+            
             # or, try to build a factory:
             if gc.karbonite() > bc.UnitType.Factory.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Factory, d):
                 gc.blueprint(unit.id, bc.UnitType.Factory, d)
