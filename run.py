@@ -67,14 +67,14 @@ while True:
                         continue
 
             #knight logic
-            if unit.unit_type == bc.UnitType.Knight:
-            	if round.()<200:
-            		
-            	d = random.choice(directions)
-            	if gc.is_attack_ready(unit.id) and gc.can_attack (unit.id, other.id):
-            		gc.attack(unit.id,other.id)
-            		print('attacked a thing!')
-            		continue
+            #if unit.unit_type == bc.UnitType.Knight:
+            #	if round.()<200:
+            #		
+            #	d = random.choice(directions)
+            #	if gc.is_attack_ready(unit.id) and gc.can_attack (unit.id, other.id):
+            #		gc.attack(unit.id,other.id)
+            #		print('attacked a thing!')
+            #		continue
 
             # okay, there weren't any dudes around
             # pick a random direction:
