@@ -78,9 +78,11 @@ while True:
                         print('attacked a thing!')
                         gc.attack(unit.id, other.id)
                         continue
-
-           
-
+            
+            # try to build a Rocket:
+            if gc.karbonite() > bc.UnitType.Rocket.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Rocket, d):
+                gc.blueprint(unit.id, bc.UnitType.Rocket, d)
+        
             # or, try to build a factory:
             #if gc.karbonite() > bc.UnitType.Factory.blueprint_cost() and gc.can_blueprint(unit.id, bc.UnitType.Factory, d):
             #    gc.blueprint(unit.id, bc.UnitType.Factory, d)
